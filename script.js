@@ -1,21 +1,26 @@
+// variables
+var bbcOne = "http://atlas.metabroadcast.com/3.0/schedule.json?channel_id=cbbh&annotations=channel,channel_summary,description,brand_summary,broadcasts,series_summary,available_locations&from=2013-06-21T11:00:00.000Z&to=2013-06-21T23:00:00.000Z&apiKey=84097c4de516445eb7bb58f4b73d2842";
+var bbcTwo = "http://atlas.metabroadcast.com/3.0/schedule.json?channel_id=cbbG&annotations=channel,channel_summary,description,brand_summary,broadcasts,series_summary,available_locations&from=2013-06-21T11:00:00.000Z&to=2013-06-21T23:00:00.000Z&apiKey=84097c4de516445eb7bb58f4b73d2842";
 var url = "http://atlas.metabroadcast.com/3.0/schedule.json?channel_id=cbbh&annotations=channel,channel_summary,description,brand_summary,broadcasts,series_summary,available_locations&from=2013-06-21T11:00:00.000Z&to=2013-06-21T23:00:00.000Z&apiKey=84097c4de516445eb7bb58f4b73d2842";
 
+// reusable functions
 var formatTime = function(time){
   return time.toLocaleTimeString("en-uk", {
-              hour: "2-digit",
-              minute: "2-digit",
-              seconds: false
-          })
-    .replace("AM", "am").replace("PM","pm").replace(" ", "");
+      hour: "2-digit",
+      minute: "2-digit",
+      seconds: false
+  })
+  .replace("AM", "am").replace("PM","pm").replace(" ", "");
 }
 
 var template = function(image, start, title){
   return '<li class="slide"><a href="#"><img class="slide-image" src="'+image+'" alt="Slide image"><div class="slide-caption"><div class="slide-start-time">Starting at '+start+'</div><div class="slide-title">'+title+'</div></div></a></li>'
 }
 
+// Doc ready
 $(document).ready(function(){
 
-  var reload = function(){
+  var load = function(){
     $('#carousel').html('<ul class="slides clearfix"></ul>');
     $.ajax({
       type: "GET",
@@ -56,7 +61,8 @@ $(document).ready(function(){
           description = val["description"];
 
           $('.container ul').append(template(image, start, title));
-        });
+
+        }); // each
 
         $('.slides').bxSlider({
           minSlides: 2,
@@ -71,20 +77,24 @@ $(document).ready(function(){
           speed: 4000
         });
 
-      }); // done
-    }//reload
-    reload();
+    }); // done && ajax
+  } // load
+  load();
 
-    $('button').on('click', function(){
-      $('button').removeClass("selected");
-      $(this).addClass("selected");
-      if($(this).hasClass("two")){
-        url = "http://atlas.metabroadcast.com/3.0/schedule.json?channel_id=cbbG&annotations=channel,channel_summary,description,brand_summary,broadcasts,series_summary,available_locations&from=2013-06-21T11:00:00.000Z&to=2013-06-21T23:00:00.000Z&apiKey=84097c4de516445eb7bb58f4b73d2842";
-        $('.logo').attr('src', "http://upload.wikimedia.org/wikipedia/en/thumb/e/e5/BBC_Two.svg/1280px-BBC_Two.svg.png");
-      } else {
-        url = "http://atlas.metabroadcast.com/3.0/schedule.json?channel_id=cbbh&annotations=channel,channel_summary,description,brand_summary,broadcasts,series_summary,available_locations&from=2013-06-21T11:00:00.000Z&to=2013-06-21T23:00:00.000Z&apiKey=84097c4de516445eb7bb58f4b73d2842";
-        $('.logo').attr('src', "http://upload.wikimedia.org/wikipedia/commons/1/1a/BBC_One_2002.png");
-      }
-      reload();
-    });
+  // Handle user's channel selection
+  $('button').on('click', function(){
+    $('button').removeClass("selected");
+    $(this).addClass("selected");
+
+    if($(this).hasClass("two")){
+      url = bbcTwo;
+      $('.logo').attr('src', "http://upload.wikimedia.org/wikipedia/en/thumb/e/e5/BBC_Two.svg/1280px-BBC_Two.svg.png");
+    } else {
+      url = bbcOne;
+      $('.logo').attr('src', "http://upload.wikimedia.org/wikipedia/commons/1/1a/BBC_One_2002.png");
+    }
+
+    load();
+  }); // button click
+
 }); // Document ready
