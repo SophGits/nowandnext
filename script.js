@@ -1,4 +1,4 @@
-var url;
+var url = "http://atlas.metabroadcast.com/3.0/schedule.json?channel_id=cbbh&annotations=channel,channel_summary,description,brand_summary,broadcasts,series_summary,available_locations&from=2013-06-21T11:00:00.000Z&to=2013-06-21T23:00:00.000Z&apiKey=84097c4de516445eb7bb58f4b73d2842";
 
 var formatTime = function(time){
   return time.toLocaleTimeString("en-uk", {
@@ -67,6 +67,7 @@ $(document).ready(function(){
           hideControlOnEnd: true,
           auto: true,
           autoControls: true,
+          // pager: false,
           speed: 4000
         });
 
