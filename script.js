@@ -9,6 +9,10 @@ var formatTime = function(time){
     .replace("AM", "am").replace("PM","pm").replace(" ", "");
 }
 
+var template = function(image, start, title){
+  return '<li class="slide"><a href="#"><img class="slide-image" src="'+image+'" alt="Slide image"><div class="slide-caption"><div class="slide-start-time">Starting at '+start+'</div><div class="slide-title">'+title+'</div></div></a></li>'
+}
+
 $(document).ready(function(){
   $.ajax({
     type: "GET",
@@ -22,7 +26,7 @@ $(document).ready(function(){
     })
     .done(function(data){
       var programmes = data["schedule"][0]["items"];
-      console.log("prog: ", programmes);
+      // console.log("prog: ", programmes);
 
       var title;
       var start;
@@ -30,23 +34,22 @@ $(document).ready(function(){
       var image;
       var description;
       $.each(programmes, function(key, val){
-        // console.log("key: ", key, "title: ", val["title"]);
+
         title = val["title"];
 
-        // start = new Date(val["broadcasts"][0]["transmission_time"]);
-        // console.log(start);
-
         start = formatTime(new Date(val["broadcasts"][0]["transmission_time"]));
-        console.log(start);
 
         end = formatTime(new Date(val["broadcasts"][0]["transmission_end_time"]));
-        console.log(end);
 
-        image = val["image"];
+        if(val["image"]){
+          image = val["image"];
+        } else {
+          image="http://ichef.bbci.co.uk/corporate2/images/width/live/p0/0l/k4/p00lk43v.jpg/624";
+        }
 
         description = val["description"];
 
-        console.log("");
+        $('.container ul').append(template(image, start, title));
       });
 
     });
