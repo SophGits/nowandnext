@@ -52,7 +52,17 @@ $(document).ready(function(){
         $('.container ul').append(template(image, start, title));
       });
 
-    });
-});
+      $('.slides').bxSlider({
+        minSlides: 2,
+        maxSlides: 2,
+        slideWidth: 460,
+        // slideMargin: 10,
+        infiniteLoop: false,
+        hideControlOnEnd: true,
+        auto: true,
+        autoControls: true,
+        speed: 4000
+      });
 
-
+    }); // done
+}); // Document ready
