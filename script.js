@@ -1,4 +1,4 @@
-var url = "http://atlas.metabroadcast.com/3.0/schedule.json?channel_id=cbbh&annotations=channel,channel_summary,description,brand_summary,broadcasts,series_summary,available_locations&from=2013-06-21T11:00:00.000Z&to=2013-06-21T23:00:00.000Z&apiKey=84097c4de516445eb7bb58f4b73d2842"
+var url;
 
 var formatTime = function(time){
   return time.toLocaleTimeString("en-uk", {
@@ -14,55 +14,76 @@ var template = function(image, start, title){
 }
 
 $(document).ready(function(){
-  $.ajax({
-    type: "GET",
-    url: url
-  })
-    .fail(function() {
-      console.log( "error" );
+
+  var reload = function(){
+    $('#carousel').html('<ul class="slides clearfix"></ul>');
+    $.ajax({
+      type: "GET",
+      url: url
     })
-    .always(function() {
-      // console.log( "Ajax request complete" );
-    })
-    .done(function(data){
-      var programmes = data["schedule"][0]["items"];
-      // console.log("prog: ", programmes);
+      .fail(function() {
+        console.log( "error" );
+      })
+      .always(function() {
+        // console.log( "Ajax request complete" );
+      })
+      .done(function(data){
+        var programmes = data["schedule"][0]["items"];
+        console.log("prog: ", data);
 
-      var title;
-      var start;
-      var end;
-      var image;
-      var description;
-      $.each(programmes, function(key, val){
+        var channelTitle = data["schedule"][0]['channel_title'];
+        $('.page-title').html(channelTitle);
 
-        title = val["title"];
+        var title;
+        var start;
+        var end;
+        var image;
+        var description;
+        $.each(programmes, function(key, val){
 
-        start = formatTime(new Date(val["broadcasts"][0]["transmission_time"]));
+          title = val["title"];
 
-        end = formatTime(new Date(val["broadcasts"][0]["transmission_end_time"]));
+          start = formatTime(new Date(val["broadcasts"][0]["transmission_time"]));
 
-        if(val["image"]){
-          image = val["image"];
-        } else {
-          image="http://ichef.bbci.co.uk/corporate2/images/width/live/p0/0l/k4/p00lk43v.jpg/624";
-        }
+          end = formatTime(new Date(val["broadcasts"][0]["transmission_end_time"]));
 
-        description = val["description"];
+          if(val["image"]){
+            image = val["image"];
+          } else {
+            image="http://ichef.bbci.co.uk/corporate2/images/width/live/p0/0l/k4/p00lk43v.jpg/624";
+          };
 
-        $('.container ul').append(template(image, start, title));
-      });
+          description = val["description"];
 
-      $('.slides').bxSlider({
-        minSlides: 2,
-        maxSlides: 2,
-        slideWidth: 460,
-        // slideMargin: 10,
-        infiniteLoop: false,
-        hideControlOnEnd: true,
-        auto: true,
-        autoControls: true,
-        speed: 4000
-      });
+          $('.container ul').append(template(image, start, title));
+        });
 
-    }); // done
+        $('.slides').bxSlider({
+          minSlides: 2,
+          maxSlides: 2,
+          slideWidth: 460,
+          slideMargin: 5,
+          infiniteLoop: true,
+          hideControlOnEnd: true,
+          auto: true,
+          autoControls: true,
+          speed: 4000
+        });
+
+      }); // done
+    }//reload
+    reload();
+
+    $('button').on('click', function(){
+      $('button').removeClass("selected");
+      $(this).addClass("selected");
+      if($(this).hasClass("two")){
+        url = "http://atlas.metabroadcast.com/3.0/schedule.json?channel_id=cbbG&annotations=channel,channel_summary,description,brand_summary,broadcasts,series_summary,available_locations&from=2013-06-21T11:00:00.000Z&to=2013-06-21T23:00:00.000Z&apiKey=84097c4de516445eb7bb58f4b73d2842";
+        $('.logo').attr('src', "http://upload.wikimedia.org/wikipedia/en/thumb/e/e5/BBC_Two.svg/1280px-BBC_Two.svg.png");
+      } else {
+        url = "http://atlas.metabroadcast.com/3.0/schedule.json?channel_id=cbbh&annotations=channel,channel_summary,description,brand_summary,broadcasts,series_summary,available_locations&from=2013-06-21T11:00:00.000Z&to=2013-06-21T23:00:00.000Z&apiKey=84097c4de516445eb7bb58f4b73d2842";
+        $('.logo').attr('src', "http://upload.wikimedia.org/wikipedia/commons/1/1a/BBC_One_2002.png");
+      }
+      reload();
+    });
 }); // Document ready

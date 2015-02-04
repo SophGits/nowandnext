@@ -96,3 +96,28 @@ a:focus {
   font-size: 1.25rem;
   font-weight: bold;
 }
+
+button:hover{
+  cursor: pointer;
+}
+
+header{
+  margin: 2em 0 1em 0;
+}
+hr{
+  margin-bottom: 2em;
+}
+.logo{
+  width: 100px;
+  margin: 0 1em;
+}
+.logo, .page-title, .channel-choice{
+  display: inline-block;
+}
+.page-title{
+  width: 50%;
+  margin-right: 1em;
+}
+.selected{
+  border: 1px solid purple;
+}
