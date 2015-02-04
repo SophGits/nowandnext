@@ -8,6 +8,9 @@ html {
 *:after {
   box-sizing: inherit;
 }
+*:focus{
+  outline: 0;
+}
 
 body {
   font: 100%/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -119,5 +122,5 @@ hr{
   margin-right: 1em;
 }
 .selected{
-  border: 1px solid purple;
+  border: 1px solid rgb(51,0,102);
 }
