@@ -1,19 +1,19 @@
 # Now and Next
 
 ### Task 1
-[x] Fetch the JSON
-[x] Add programme items to the DOM
-[x] Insert each programme's image, start time and title
-[x] Implement scrolling functionality
+- [x] Fetch the JSON
+- [x] Add programme items to the DOM
+- [x] Insert each programme's image, start time and title
+- [x] Implement scrolling functionality
 
 ### Task 2
-[x] Add ability to switch to another channel
-[] Include extra information (description and duration) in a mousover overlay
-[] Make responsive
+- [x] Add ability to switch to another channel
+- [ ] Include extra information (description and duration) in a mousover overlay
+- [ ] Make responsive
 
 ### Notes
 ##### Tools
-- jQuery has been used for this task to keep it simple and quick.
+- jQuery has been used for this task to keep it simple and quick. It's not particularly conducive to an MVC-style separation of concerns. On a bigger scale a client-side framework such as Backbone.js may be more suitable.
 - For the carousel, a jQuery plugin was used (bxSlider) because it has more functionality than something I could make (it can be responsive, supports IE7+, is customisable etc).
 
 ##### Improvements
